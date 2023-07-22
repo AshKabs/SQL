@@ -1,0 +1,28 @@
+-- Create store Database Icecream Shop 
+
+CREATE TABLE icecreamshop (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, quantity INTEGER, rating INTEGER, contains_dairy TEXT);
+
+INSERT INTO icecreamshop VALUES (1, "Vanilla" , 3.00 , 30 , 8.0 , "yes");
+INSERT INTO icecreamshop VALUES (2, "Chocolate" , 3.00, 25 , 6.0 , "yes");
+INSERT INTO icecreamshop VALUES (3,  "Strawberry" , 3.00, 14 , 3.5 , "yes");
+INSERT INTO icecreamshop VALUES (4, "CookiesnCream" , 4.00, 40 , 9.5 , "yes");
+INSERT INTO icecreamshop VALUES (5, "CookieDough" , 4.00, 45 , 10.0 , "yes"); 
+INSERT INTO icecreamshop VALUES (6, "CottonCandy" , 4.00, 18 , 5.3 , "no");
+INSERT INTO icecreamshop VALUES (7, "CakeBatter" , 4.00, 36 , 8.5 , "yes");
+INSERT INTO icecreamshop VALUES (8, "MangoSorbet" , 2.50, 25 , 8.0 , "no");
+INSERT INTO icecreamshop VALUES (9, "LemonSorbet" , 2.50, 20 , 7.5 , "no");
+INSERT INTO icecreamshop VALUES (10, "CoconutSorbet" , 2.50, 26 , 8.2 , "no");
+INSERT INTO icecreamshop VALUES (11, "Pistachio" , 4.50, 30, 8.5 , "yes");
+INSERT INTO icecreamshop VALUES (12, "PeanutButter" , 4.00 , 35 , 9.1 , "yes");
+INSERT INTO icecreamshop VALUES (13, "RockyRoad" , 4.50 , 18 , 6.8 , "yes");
+INSERT INTO icecreamshop VALUES (14, "Caramel" , 4.00 , 20 , 7.0 , "yes");
+INSERT INTO icecreamshop VALUES (15, "Coffee" , 4.50 , 36 , 9.3 , "no");
+
+-- Only show items that have a popularity over 6 and order by price 
+SELECT * FROM icecreamshop WHERE rating > 6  ORDER BY price ;
+
+-- Display items that contains no dairy and order by price
+SELECT * FROM icecreamshop WHERE contains_dairy = "no" ORDER BY price; 
+
+-- Display SUM of quantity for items that contain dairy and SUM of quantity for items that dont
+SELECT SUM(quantity) FROM icecreamshop GROUP BY contains_dairy
