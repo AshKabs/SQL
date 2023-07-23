@@ -72,3 +72,7 @@ FROM marvels WHERE gender = "Male");
 SELECT alignment, SUM(intelligence) AS Total_Intelligence FROM marvels 
     GROUP BY alignment 
     Having Total_Intelligence > 24;
+
+/* Group by alignment overall stength, speed and durability*/ 
+SELECT alignment, SUM(strength + speed + durability) AS total_ability FROM marvels 
+GROUP BY alignment; 
