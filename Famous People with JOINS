@@ -1,0 +1,66 @@
+/* In this project, you’re going to make your own table with some small set of “famous people”, then make more tables about things they do and join those to create nice human readable lists.*/
+
+CREATE TABLE womensingers (ID INTEGER PRIMARY KEY,
+    name TEXT,
+    age INTEGER);
+
+INSERT INTO womensingers VALUES(1,"Tina Turner", 83);
+INSERT INTO womensingers VALUES(2, "Cher", 77);
+INSERT INTO womensingers VALUES(3, "Celine Dion", 55);
+INSERT INTO womensingers VALUES(4, "Whitney Houston" , 48); 
+INSERT INTO womensingers VALUES(5, "Mariah Carey", 54);
+INSERT INTO womensingers VALUES(6, "Beyonce", 41); 
+
+CREATE TABLE hitsongs (ID INTEGER PRIMARY KEY,
+    singers_id INTEGER,
+    title TEXT,
+    year INTEGER,
+    streams INTEGER); 
+INSERT INTO hitsongs VALUES(1, 1, "Proud Mary", 1970, 1000000); 
+INSERT INTO hitsongs VALUES(2, 1, "Private Dancer" ,1984, 3000000); 
+INSERT INTO hitsongs VALUES(3, 2, "Believe", 1998, 4000000); 
+INSERT INTO hitsongs VALUES(4,2, "If I could turn back time", 1989, 2000000);
+INSERT INTO hitsongs VALUES(5,3, "My Heart will go on", 1997, 700000000);
+INSERT INTO hitsongs VALUES(6,3, "The Power of Love", 1993, 10000000); 
+INSERT INTO hitsongs VALUES(7,4, "I Will Always Love You", 1992, 1000000000); 
+INSERT INTO hitsongs VALUES(8,4, "Greatest Love of All", 1985, 30000000); 
+INSERT INTO hitsongs VALUES(9,5, "All I Want for Christmas is You", 1994, 1400000000); 
+INSERT INTO hitsongs VALUES(10,5, "We Belong Together", 2005, 200000000);
+INSERT INTO hitsongs VALUES(11, 6, "Crazy in Love", 2003, 100000000);
+INSERT INTO hitsongs VALUES(12,6, "Single Ladies", 2008, 600000000); 
+INSERT INTO hitsongs VALUES(13,4, "I Wanna Dance with Somebody", 1985, 2000000); 
+INSERT INTO hitsongs VALUES(14, 6, "Dance for You", 2011, 80000000); 
+INSERT INTO hitsongs VALUES(15, 5, "Butterfly", 1997, 95000000); 
+
+CREATE TABLE hometowns(ID INTEGER PRIMARY KEY,
+    singers_id INTEGER,
+    location TEXT,
+    country TEXT);
+INSERT INTO hometowns VALUES(1,1, "Nutbush, Tennesse", "US"); 
+INSERT INTO hometowns VALUES(2,2, "Los Angeles, California", "US");
+INSERT INTO hometowns VALUES(3,3, "Charlemagne, Quebec", "Canada"); 
+INSERT INTO hometowns VALUES(4,4, "Newark, New Jersey", "US"); 
+INSERT INTO hometowns VALUES(5,5, "Huntington, New York", "US");
+INSERT INTO hometowns VALUES(6,6, "Houston, Texas", "US");
+
+
+/* Write a query that lists the artists name, hitsongs title, year and streams*/ 
+SELECT womensingers.name, hitsongs.title, hitsongs.year, hitsongs.streams
+FROM womensingers 
+LEFT OUTER JOIN hitsongs 
+ON womensingers.id= hitsongs.singers_id; 
+
+/* Write a query that lists the artist name and total number streams in descending order*/ 
+
+SELECT womensingers.name, womensingers.age, SUM(hitsongs.streams) AS total_streams
+FROM womensingers
+LEFT OUTER JOIN hitsongs 
+ON womensingers.id= hitsongs.singers_id 
+GROUP BY womensingers.name 
+ORDER BY total_streams desc; 
+
+/* Write a query that lists the artists name, age, and hometown location and country*/
+SELECT womensingers.name, womensingers.age, hometowns.location, hometowns.country 
+FROM womensingers 
+LEFT OUTER JOIN hometowns
+ON womensingers.id= hometowns.singers_id; 
