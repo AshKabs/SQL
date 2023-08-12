@@ -1,0 +1,88 @@
+#For this Final Project I came up with possible Questions based on chinook digital media store database. 
+
+#Show customers full name, email, and city who are located in the US, list in alphabetic order by last name 
+
+SELECT customers.FirstName
+, customers.LastName
+, customers.Email
+,customers.City
+FROM chinook.customers
+WHERE Country = 'USA'
+ORDER BY LastName asc;
+
+#Show all tracks and their albums 
+
+SELECT tracks.Name AS Track
+,albums.Title as Album
+FROM tracks
+JOIN albums
+ON tracks.TrackId=albums.AlbumId
+JOIN artists
+ON artists.ArtistId=albums.AlbumId;
+
+#List all customer(id, full name, and email), andtheir support rep name who made a purchase in 2012
+
+SELECT customers.CustomerId, customers.FirstName, customers.LastName, customers.Email, 
+employees.FirstName, employees.LastName
+FROM customers
+JOIN employees 
+ON customers.SupportRepId=employees.EmployeeId
+JOIN invoices
+ON customers.CustomerId= invoices.CustomerId
+WHERE InvoiceDate BETWEEN '2012-01-01' AND '2012-12-31'
+GROUP BY customers.CustomerId;
+
+#What were total sales between 2010-2013?
+
+SELECT SUM(Total)
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2010-01-01' AND '2013-12-31';
+
+#Who were the top two selling agents in 2012?
+
+SELECT employees.FirstName, employees.LastName,
+ROUND(SUM(invoices.Total), 2) as 'Total Sales' 
+FROM chinook.employees
+
+JOIN chinook.customers
+ON customers.SupportRepId = employees.EmployeeId
+
+JOIN chinook.invoices
+ON invoices.CustomerId = customers.CustomerId
+
+WHERE employees.Title = 'Sales Support Agent' 
+AND InvoiceDate LIKE '2012%' 
+GROUP BY employees.FirstName
+ORDER BY (round(sum(invoices.Total), 2))  DESC LIMIT 2;
+
+#List employees(first name, last name, title) who work in IT
+
+SELECT FirstName, LastName, Title
+FROM chinook.employees
+WHERE Title LIKE '%IT%';
+
+#Show all Jazz albums and artists
+
+SELECT albums.Title, artists.Name
+FROM chinook.albums
+JOIN chinook.artists
+ON albums.ArtistId= artists.ArtistId
+
+JOIN chinook.tracks
+ON tracks.AlbumId= albums.AlbumId
+
+JOIN chinook.genres
+ON genres.GenreId= tracks.GenreId
+
+Where genres.Name = 'Jazz'
+GROUP BY albums.Title;
+
+#Show all tracks in the Music playlist
+
+SELECT tracks.Name, playlists.Name AS Playlist
+FROM chinook.tracks
+JOIN chinook.playlist_track
+ON playlist_track.TrackId= tracks.TrackId
+JOIN chinook.playlists
+ON playlists.PlaylistId= playlist_track.PlaylistId
+WHERE playlists.Name= 'Music';
